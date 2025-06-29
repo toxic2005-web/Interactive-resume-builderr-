@@ -1,0 +1,116 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Resume Builder</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; background: #f4f4f4; }
+    header { background-color: #222; color: #fff; padding: 1rem; text-align: center; }
+    #progress-bar { width: 100%; background-color: #ccc; height: 5px; }
+    #progress { width: 100%; height: 100%; background-color: #76c7c0; transition: width 0.3s ease-in-out; }
+    main { display: flex; flex-wrap: wrap; padding: 1rem; gap: 1rem; }
+    .form-section, .preview-section { flex: 1 1 45%; background: #fff; padding: 1rem; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+    label, input, textarea { display: block; margin-bottom: 0.5rem; width: 100%; }
+    input, textarea { padding: 0.5rem; border: 1px solid #ccc; border-radius: 5px; transition: border 0.3s; }
+    input:focus, textarea:focus { border-color: #76c7c0; }
+    button { margin-top: 0.5rem; padding: 0.5rem 1rem; border: none; background-color: #76c7c0; color: #fff; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
+    button:hover { background-color: #5da9a4; }
+    .animated { animation: fadeIn 0.8s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) { main { flex-direction: column; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Interactive Resume Builder</h1>
+    <div id="progress-bar"><div id="progress"></div></div>
+  </header>  <main>
+    <section class="form-section">
+      <form id="resume-form">
+        <label>Name: <input type="text" id="name" value="Tilesh Rakhade" /></label>
+        <label>Email: <input type="email" id="email" value="rakhadetilesh69@gmail.com" /></label>
+        <label>Phone: <input type="tel" id="phone" value="9764332249" /></label>
+        <label>Profile Summary:
+          <textarea id="summary">A passionate and dynamic computer engineering student with a strong foundation in web development, AI, and database systems. I have hands-on experience building interactive web applications and have worked on real-world projects including a book suggestion platform and a voting system. With a keen interest in learning new technologies, I strive to deliver innovative and scalable solutions. I thrive in collaborative environments and continuously seek opportunities to improve and expand my skillset.</textarea>
+        </label><div id="education-section">
+      <h3>Education</h3>
+      <div class="edu-entry">
+        <input type="text" placeholder="Degree" class="edu-degree" value="B.Tech in Artificial Intelligence (3rd Year)" />
+        <input type="text" placeholder="Institution" class="edu-inst" value="J.D. College of Engineering and Management, DBATU University (2023-2027)" />
+      </div>
+    </div>
+
+    <div id="skills-section">
+      <h3>Skills</h3>
+      <label><input type="checkbox" value="HTML" class="skill-check" checked /> HTML</label>
+      <label><input type="checkbox" value="CSS" class="skill-check" checked /> CSS</label>
+      <label><input type="checkbox" value="JavaScript" class="skill-check" checked /> JavaScript</label>
+      <label><input type="checkbox" value="Web Development" class="skill-check" checked /> Web Development</label>
+      <label><input type="checkbox" value="Generative AI" class="skill-check" checked /> Generative AI</label>
+      <label><input type="checkbox" value="DBMS" class="skill-check" checked /> DBMS</label>
+      <label><input type="checkbox" value="SQL" class="skill-check" checked /> SQL</label>
+      <label><input type="checkbox" value="Python" class="skill-check" checked /> Python</label>
+    </div>
+
+    <div id="experience-section">
+      <h3>Experience / Projects</h3>
+      <div class="exp-entry">
+        <input type="text" placeholder="Job Title / Project" class="exp-title" value="Web Development Internship" />
+        <input type="text" placeholder="Company / Platform" class="exp-company" value="Remote Internship" />
+      </div>
+      <div class="exp-entry">
+        <input type="text" placeholder="Job Title / Project" class="exp-title" value="Book Suggestion Platform" />
+        <input type="text" placeholder="Company / Platform" class="exp-company" value="Academic Project" />
+      </div>
+      <div class="exp-entry">
+        <input type="text" placeholder="Job Title / Project" class="exp-title" value="Voting System" />
+        <input type="text" placeholder="Company / Platform" class="exp-company" value="College Project" />
+      </div>
+    </div>
+  </form>
+</section>
+
+<section class="preview-section">
+  <div id="resume-preview" class="animated">
+    <h2 id="preview-name">Tilesh Rakhade</h2>
+    <p id="preview-email">rakhadetilesh69@gmail.com</p>
+    <p id="preview-phone">9764332249</p>
+    <p id="preview-summary">A passionate and dynamic computer engineering student with a strong foundation in web development, AI, and database systems. I have hands-on experience building interactive web applications and have worked on real-world projects including a book suggestion platform and a voting system. With a keen interest in learning new technologies, I strive to deliver innovative and scalable solutions. I thrive in collaborative environments and continuously seek opportunities to improve and expand my skillset.</p>
+    <div id="preview-education">B.Tech in Artificial Intelligence (3rd Year), J.D. College of Engineering and Management, DBATU University (2023-2027)</div>
+    <div id="preview-skills">Skills: HTML, CSS, JavaScript, Web Development, Generative AI, DBMS, SQL, Python</div>
+    <div id="preview-experience">
+      <ul>
+        <li>Web Development Internship – Remote Internship</li>
+        <li>Book Suggestion Platform – Academic Project</li>
+        <li>Voting System – College Project</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+  </main>  <footer>
+    <button id="download-pdf">Download PDF</button>
+  </footer>  <script>
+    const updateProgress = () => {
+      const inputs = document.querySelectorAll('#resume-form input, #resume-form textarea');
+      const filled = Array.from(inputs).filter(input => input.value.trim() !== '').length;
+      const percent = (filled / inputs.length) * 100;
+      document.getElementById('progress').style.width = `${percent}%`;
+    };
+
+    document.querySelectorAll('#resume-form input, #resume-form textarea').forEach(input => {
+      input.addEventListener('input', () => {
+        document.getElementById(`preview-${input.id}`)?.textContent = input.value;
+        updateProgress();
+      });
+    });
+
+    document.querySelectorAll('.skill-check').forEach(box => {
+      box.addEventListener('change', () => {
+        const skills = Array.from(document.querySelectorAll('.skill-check:checked')).map(c => c.value);
+        document.getElementById('preview-skills').textContent = 'Skills: ' + skills.join(', ');
+      });
+    });
+  </script></body>
+</html>
